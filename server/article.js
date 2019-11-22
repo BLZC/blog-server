@@ -3,7 +3,10 @@ const { getAllArticles,
     getArticleById,
     getArticleByGategory,
     addArticle,
-    getArticleDetail } = require('../controllers/article')
+    getArticleByTitle,
+    deleteArticle,
+    updateArticle,
+    getArticleByAuthor } = require('../controllers/article')
 
 module.exports = {
     // 获取所有文章
@@ -36,7 +39,26 @@ module.exports = {
             data: article
         }
     },
-
+    // 根据作者查询文章
+    getArticleByAuthor: async ctx => {
+        let options = ctx.params || {};
+        let author = options.author || 0;
+        let article = await getArticleByAuthor(author);
+        ctx.body = {
+            code: 1,
+            data: article
+        }
+    },
+    // 根据题目模糊查询
+    getArticleByTitle: async ctx => {
+        let options = ctx.params || {};
+        let title = options.title || '';
+        let article = await getArticleByTitle(title)
+        ctx.body = {
+            code: 1,
+            data: article
+        }
+    },
     // 新增文章
     addArticle: async ctx => {
         let options = ctx.request.body;
@@ -48,4 +70,36 @@ module.exports = {
     },
 
     //删除文章
+    deleteArticle: async ctx => {
+        let options = ctx.params;
+        let id = options.id || null;
+        let result = await deleteArticle(id);
+        if (result) {
+            ctx.body = {
+                code: 1,
+                message: '删除成功'
+            } 
+        } else {
+            ctx.body = {
+                code: 0,
+                message: '删除失败'
+            }
+        }
+    },
+    // 修改文章
+    updateArticle: async ctx => {
+        let options = ctx.request.body;
+        let result = await updateArticle(options)
+        if (result) {
+            ctx.body = {
+                code: 1,
+                message: '修改成功'
+            } 
+        } else {
+            ctx.body = {
+                code: 0,
+                message: '修改失败'
+            }
+        }
+    }
 }

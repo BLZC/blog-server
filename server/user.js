@@ -16,8 +16,7 @@ module.exports = {
         let account = options.account || "";
         let password = options.password || "";
         let user = await getUserById(account, password);
-        console.log(user)
-            ctx.body = user
+        ctx.body = user
     }
 
 }

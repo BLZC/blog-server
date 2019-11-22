@@ -1,8 +1,11 @@
 /**
  * 用户管理
  */
+const { sign } = require('jsonwebtoken')
+const secret = 'blog'
 const User = require('../sqlConfig/model/user')
-const {Len} = require('../util/api')
+const { Len } = require('../util/api')
+
 module.exports = {
     // 查询所有用户
     getAllUsers: async () => {
@@ -29,9 +32,12 @@ module.exports = {
             isOk = res;
         })
         if (Len(isOk)) {
+            const token = sign({account}, secret, {expiresIn: '1h'})
             result = {
                 code: 1,
-                message: '账号密码正确'
+                message: '账号密码正确',
+                data: isOk[0],
+                token
             }
         } else if (Len(hasUser)) {
             result = {
