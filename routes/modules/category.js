@@ -1,11 +1,13 @@
 /**
  * 用户管理模块
  */
-const category = require('koa-router')()
+const Router = require('koa-router')
+const apiCategory = new Router()
+const category = new Router()
 const categoryManage = require('../../server/category')
 
 // 获取所有分类
 category.get('/categories', categoryManage.getAllCategorys)
 
-
-module.exports = category
+apiCategory.use('/api', category.routes(), category.allowedMethods())
+module.exports = apiCategory

@@ -6,7 +6,7 @@ module.exports = {
         const users = await getAllUsers();
         // ctx.type = 'application/json';
         ctx.body = {
-            status: 0,
+            code: 1,
             data: users
         }
     },

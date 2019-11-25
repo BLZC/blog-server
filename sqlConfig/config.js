@@ -3,9 +3,9 @@ const Sequelize = require('sequelize');
  * 数据库配置
  */
 const config = {    
-    host: 'localhost',
-    username: 'root',
-    password: '123456',
+    host: '49.235.8.149',
+    username: 'lzc',
+    password: 'yan521',
     database: 'blog'
 }
 

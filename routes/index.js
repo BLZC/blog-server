@@ -1,10 +1,10 @@
 
-const user = require('./modules/user');
+const apiuser = require('./modules/user');
 const author = require('./modules/article')
-const category = require('./modules/category')
+const apiCategory = require('./modules/category')
 module.exports = app => {
-    app.use(user.routes())
+    app.use(apiuser.routes())
     app.use(author.routes())
-    app.use(category.routes())
+    app.use(apiCategory.routes())
 }
 
