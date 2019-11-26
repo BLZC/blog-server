@@ -4,6 +4,7 @@
 const Koa = require('koa')
 const bodyParser = require('koa-bodyparser')
 const tpRouter = require('./routes/index')
+const static = require('koa-static')
 // const jwt = require('koa-jwt')
 const app = new Koa()
 // 解析中间件
@@ -13,6 +14,7 @@ app.use(
   })
 )
 
+app.use(static(__dirname+'/server/static'))
 // app.use(jwt({
 //   secret: 'blog'
 // }).unless({

@@ -34,5 +34,11 @@ article.delete('/deleteArticle/:id', articleManage.deleteArticle)
 // 修改文章
 article.put('/updateArticle', articleManage.updateArticle)
 
+// 导出为pdf
+article.get('/downpdf/:articleName', articleManage.fileLoad)
+
+// 下载
+article.post('/transformPdf', articleManage.transformPdf)
+
 author.use('/api', article.routes(), article.allowedMethods())
 module.exports = author

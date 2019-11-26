@@ -7,7 +7,9 @@ const { getAllArticles,
     deleteArticle,
     updateArticle,
     getArticleByAuthor } = require('../controllers/article')
-
+const fs = require('fs')
+const markdownpdf = require("markdown-pdf");
+const send = require('koa-send');
 module.exports = {
     // 获取所有文章
     getAllArticles: async ctx => {
@@ -101,5 +103,31 @@ module.exports = {
                 message: '修改失败'
             }
         }
+    },
+    // 将md转化为pdf
+    transformPdf: async ctx => {
+        let _markdownMd = ctx.request.body.markdownMd,
+            _articleName = ctx.request.body.articleName,
+            pathIndex = new Date().getTime(),
+            articleName = _articleName + '-' + pathIndex,
+            toPath = __dirname + "/static/" + articleName + ".pdf";
+        let options = {
+            cssPath: __dirname+'/css/pdf.css'
+        }
+        await markdownpdf(options).from.string(_markdownMd).to(toPath, function (err) {
+            console.log(articleName+"保存成功！")
+        })
+        ctx.body = {
+            code: 1,
+            articleName: articleName
+        }
+    },
+
+    // pdf下载
+    fileLoad: async ctx => {
+        let _articleName = ctx.params.articleName;
+        let path = "/server/static/" + _articleName
+        ctx.attachment(path);
+        await send(ctx, path);
     }
 }
