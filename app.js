@@ -1,4 +1,11 @@
 const Koa = require('koa')
+<<<<<<< HEAD
+=======
+const bodyParser = require('koa-bodyparser')
+const tpRouter = require('./routes/index')
+const static = require('koa-static')
+// const jwt = require('koa-jwt')
+>>>>>>> 8ffd4e0... add md -> pdf
 const app = new Koa()
 let server = app.listen(3000)
 // 导入WebSocket模块:
@@ -39,6 +46,7 @@ app.use(function*(next) {
   yield next
 })
 
+<<<<<<< HEAD
 function parseUser(obj) {
   if (!obj) {
     return
@@ -61,6 +69,14 @@ function parseUser(obj) {
     }
   }
 }
+=======
+app.use(static(__dirname+'/server/static'))
+// app.use(jwt({
+//   secret: 'blog'
+// }).unless({
+//   path: [/\/login/]
+// }))
+>>>>>>> 8ffd4e0... add md -> pdf
 
 app.use(async (ctx, next) => {
   ctx.state.user = parseUser(ctx.cookies.get('name') || '')
