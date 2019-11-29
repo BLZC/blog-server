@@ -114,9 +114,13 @@ module.exports = {
         let options = {
             cssPath: __dirname+'/css/pdf.css'
         }
-        await markdownpdf(options).from.string(_markdownMd).to(toPath, function (err) {
-            console.log(articleName+"保存成功！")
-        })
+        try {
+            await markdownpdf(options).from.string(_markdownMd).to(toPath, function (err) {
+                console.log(articleName+"保存成功！")
+            })
+        } catch (error) {
+            console.log(error)
+        }
         ctx.body = {
             code: 1,
             articleName: articleName
@@ -127,6 +131,7 @@ module.exports = {
     fileLoad: async ctx => {
         let _articleName = ctx.params.articleName;
         let path = "/server/static/" + _articleName
+        console.log('下载了'+_articleName)
         ctx.attachment(path);
         await send(ctx, path);
     }
