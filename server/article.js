@@ -10,6 +10,8 @@ const { getAllArticles,
 const fs = require('fs')
 const markdownpdf = require("markdown-pdf");
 const send = require('koa-send');
+// const path = require('path');
+// const pdf = require('pdf-poppler');
 module.exports = {
     // 获取所有文章
     getAllArticles: async ctx => {
@@ -134,5 +136,40 @@ module.exports = {
         console.log('下载了'+_articleName)
         ctx.attachment(path);
         await send(ctx, path);
-    }
+    },
+
+    /**
+     * pdf2img
+     *  params: {fileName： 需要转的文件名}
+     */
+    // pdf2img: async ctx => {
+    //     let options = ctx.params || {};
+    //     let file = __dirname + '/static/'+options.fileName+'.pdf';
+    //     let opts = {
+    //         format: 'jpeg',
+    //         out_dir: path.dirname(file),
+    //         out_prefix: path.basename(file, path.extname(file)),
+    //         page: null
+    //     }
+    //     // 打印pdf文件信息
+    //     pdf.info(file)
+    //     .then(pdfinfo => {
+    //         console.log(pdfinfo);
+    //     });
+    //     // pdf转image
+    //     pdf.convert(file, opts)
+    //         .then(res => {
+    //             console.log(res)
+    //             console.log('Successfully converted');
+    //         })
+    //         .catch(error => {
+    //             console.error(error);
+    //         })
+    //     ctx.body = {
+    //         code: 1,
+    //         data: {
+    //             message: 'success'
+    //         }
+    //     }
+    // }
 }

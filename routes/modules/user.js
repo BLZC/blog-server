@@ -10,6 +10,10 @@ const userManage = require('../../server/user')
  */
 user.get('/users', userManage.getAllUsers)
 /**
+ * 获取公钥
+*/      
+user.post('/getPubKey', userManage.getPubKey)
+/**
  *  登录
  */
 user.post('/login', userManage.Login)

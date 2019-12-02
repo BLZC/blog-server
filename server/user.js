@@ -1,4 +1,4 @@
-
+const {public_key , private_key, pubkey, prikey} = require('../util/generatorRsakey.js');
 const { getAllUsers, getUserById } = require('../controllers/user')
 
 module.exports = {
@@ -10,12 +10,19 @@ module.exports = {
             data: users
         }
     },
-
+    // 获取公钥
+    getPubKey: async ctx => {
+        ctx.body = {
+            key: public_key
+        }
+    },
     Login: async ctx => {
-        let options = ctx.request.body || {};
-        let account = options.account || "";
-        let password = options.password || "";
-        let user = await getUserById(account, password);
+        let options = ctx.request.body || {},
+            account = options.account || "",
+            password = options.password || "";
+        //解密
+        let _pwd = JSON.parse(prikey.decrypt(password, 'utf8'));
+        let user = await getUserById(account, _pwd);
         ctx.body = user
     }
 

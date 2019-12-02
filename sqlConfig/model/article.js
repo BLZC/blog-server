@@ -21,7 +21,7 @@ const Article = sequelize.define('article', {
     },
     time: Sequelize.STRING(10),
     belong: Sequelize.STRING(100),
-    content: Sequelize.STRING(2500),
+    content: Sequelize.TEXT(0),
     zan: Sequelize.STRING(10),
     pinglun: Sequelize.STRING(10),
     zhaiyao: Sequelize.STRING(100),

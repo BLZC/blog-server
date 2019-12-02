@@ -37,6 +37,9 @@ article.put('/updateArticle', articleManage.updateArticle)
 // 导出为pdf
 article.get('/downpdf/:articleName', articleManage.fileLoad)
 
+// pdf2img
+// article.get('/pdf2img', articleManage.pdf2img)
+
 // 下载
 article.post('/transformPdf', articleManage.transformPdf)
 
