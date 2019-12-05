@@ -1,4 +1,4 @@
-const {public_key , private_key, pubkey, prikey} = require('../util/generatorRsakey.js');
+const {public_key , prikey} = require('../util/generatorRsakey.js');
 const { getAllUsers, getUserById } = require('../controllers/user')
 
 module.exports = {

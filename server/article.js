@@ -112,7 +112,7 @@ module.exports = {
             _articleName = ctx.request.body.articleName,
             pathIndex = new Date().getTime(),
             articleName = _articleName + '-' + pathIndex,
-            toPath = __dirname + "/static/" + articleName + ".pdf";
+            toPath = process.cwd() + "/static/pdf/" + articleName + ".pdf";
         let options = {
             cssPath: __dirname+'/css/pdf.css'
         }
@@ -132,7 +132,7 @@ module.exports = {
     // pdf下载
     fileLoad: async ctx => {
         let _articleName = ctx.params.articleName;
-        let path = "/server/static/" + _articleName
+        let path = "/static/pdf/" + _articleName
         console.log('下载了'+_articleName)
         ctx.attachment(path);
         await send(ctx, path);

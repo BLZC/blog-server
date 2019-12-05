@@ -1,16 +1,17 @@
 const Koa = require('koa')
-const bodyParser = require('koa-bodyparser')
 const tpRouter = require('./routes/index')
 const static = require('koa-static')
+const koaBody = require('koa-body');
 // const jwt = require('koa-jwt')
 const app = new Koa()
 
-app.use(
-  bodyParser({
-    formLimit: '1mb'
-  })
-)
-app.use(static(__dirname+'/static'))
+app.use(koaBody({
+  multipart: true,
+  formidable: {
+      maxFileSize: 200*1024*1024	// 设置上传文件大小最大限制，默认2M
+  }
+}));
+
 // app.use(jwt({
 //   secret: 'blog'
 // }).unless({
@@ -19,6 +20,8 @@ app.use(static(__dirname+'/static'))
 
 tpRouter(app)
 
+app.use(static(__dirname+'/static'))
+
 app.listen(9001, () => {
-  console.log('**********teplate-server running at port 9001***********')
+  console.log('**********blog-server running at port 9001***********')
 })
