@@ -8,7 +8,7 @@ module.exports = {
     // 查询所有文章
     getAllArticles: async () => {
         return Article.findAll({
-            attributes: ['id', 'title', 'author', 'time', 'belong', 'content', 'zan', 'pinglun', 'zhaiyao'],
+            attributes: ['id', 'title', 'author', 'time', 'lastEditTime', 'belong', 'content', 'zan', 'pinglun', 'zhaiyao'],
             order: [['id', 'DESC']]
         })
     },
@@ -33,7 +33,8 @@ module.exports = {
         return Article.findAll({
             where: {
                 belong: category
-            }
+            },
+            order: [['id', 'DESC']]
         })
     },
     //根据题目模糊查询
@@ -43,7 +44,8 @@ module.exports = {
                 title: {
                     [Op.like]: `%${title}%`
                 }
-            }
+            },
+            order: [['id', 'DESC']]
         })
     },
     // 根据作者查询文章

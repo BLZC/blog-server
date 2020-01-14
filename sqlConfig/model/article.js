@@ -20,6 +20,7 @@ const Article = sequelize.define('article', {
         allowNull: false
     },
     time: Sequelize.STRING(10),
+    lastEditTime: Sequelize.STRING(10),
     belong: Sequelize.STRING(100),
     content: Sequelize.TEXT(0),
     zan: Sequelize.STRING(10),

@@ -1,4 +1,7 @@
 // 测试文件
-var num = Math.random()
-
-console.log(num)
+var result = (function(){
+  return 1;
+},function(){
+  return "2"
+})()
+console.log(typeof result)
