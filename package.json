@@ -1,4 +1,9 @@
 {
+  "name": "it-home",
+  "scripts": {
+    "dev": "node app.js",
+    "serve": "supervisor app.js"
+  },
   "dependencies": {
     "busboy": "^0.3.1",
     "cookies": "^0.7.3",
