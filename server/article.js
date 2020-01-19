@@ -1,12 +1,13 @@
 const {Len} = require('../util/api')
 const { getAllArticles,
-    getArticleById,
-    getArticleByGategory,
-    addArticle,
-    getArticleByTitle,
-    deleteArticle,
-    updateArticle,
-    getArticleByAuthor } = require('../controllers/article')
+        getArticleBlurry,
+        getArticleById,
+        getArticleByGategory,
+        addArticle,
+        getArticleByTitle,
+        deleteArticle,
+        updateArticle,
+        getArticleByAuthor } = require('../controllers/article')
 const fs = require('fs')
 const markdownpdf = require("markdown-pdf");
 const send = require('koa-send');
@@ -15,13 +16,30 @@ const send = require('koa-send');
 module.exports = {
     // 获取所有文章
     getAllArticles: async ctx => {
-        const articles = await getAllArticles();
+        let options = ctx.params || {}
+        let limit = options.limit || null
+        let offset = options.offset || null
+        const articles = await getAllArticles(limit, offset);
         ctx.body = {
             code: 1,
-            data: articles
+            data: articles.data,
+            length: articles.length
         }
     },
     
+    // 模糊查询
+    getArticleBlurry: async ctx => {
+        let options = ctx.params || {}
+        let limit = options.limit || null
+        let offset = options.offset || null
+        let searchCondition = options.searchCondition || null
+        const articles = await getArticleBlurry(searchCondition, limit, offset);
+        ctx.body = {
+            code: 1,
+            data: articles.data,
+            length: articles.length
+        }
+    },
     // 根据id查询文章
     getArticleById: async ctx => {
         let options = ctx.params || {};

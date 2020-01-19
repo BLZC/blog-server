@@ -6,11 +6,53 @@ const {Op} = require('sequelize')
 const {Len} = require('../util/api')
 module.exports = {
     // 查询所有文章
-    getAllArticles: async () => {
-        return Article.findAll({
+    getAllArticles: async (limit, offset) => {
+        let result = {},
+        allResult = await Article.findAll({
             attributes: ['id', 'title', 'author', 'time', 'lastEditTime', 'belong', 'content', 'zan', 'pinglun', 'zhaiyao'],
             order: [['id', 'DESC']]
         })
+        result.length = allResult.length
+        result.data = await Article.findAll({
+            attributes: ['id', 'title', 'author', 'time', 'lastEditTime', 'belong', 'content', 'zan', 'pinglun', 'zhaiyao'],
+            order: [['id', 'DESC']],
+            offset: Number(offset),
+            limit: Number(limit),
+        })
+        return result
+    },
+    // 文章模糊查询
+    getArticleBlurry: async (searchCondition, limit, offset) => {
+        let result = {}
+        let allData = await Article.findAll()
+        let limitData = await Article.findAll({
+            attributes: ['id', 'title', 'author', 'time', 'lastEditTime', 'belong', 'content', 'zan', 'pinglun', 'zhaiyao'],
+            order: [['id', 'DESC']],
+            where: {
+                [Op.or]: [
+                    {
+                        title: {
+                            [Op.like]: `%${searchCondition}%`
+                        }
+                    },
+                    {
+                        author: {
+                            [Op.like]: `%${searchCondition}%`
+                        }
+                    },
+                    {
+                        content: {
+                            [Op.like]: `%${searchCondition}%`
+                        }
+                    },
+                ]
+            },
+            offset: Number(offset),
+            limit: Number(limit),
+          })
+          result.length = allData.length || 0
+          result.data = limitData
+          return result
     },
     // 根据id查找某篇文章
     getArticleById: async id => {

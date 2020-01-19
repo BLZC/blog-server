@@ -7,13 +7,13 @@ const article = new Router()
 const author = new Router()
 
 const articleManage = require('../../server/article')
-/**
- * 获取所有文章
- */
-article.get('/articles', articleManage.getAllArticles)
-/**
- *  根据id查询文章
- */
+// 获取所有文章
+article.get('/articles/:limit/:offset', articleManage.getAllArticles)
+
+// 文章模糊查询
+article.get('/getArticleBlurry/:limit/:offset/:searchCondition', articleManage.getArticleBlurry)
+
+// 根据id查询文章
 article.get('/article/:id', articleManage.getArticleById)
 
 // 根据类别查询文章
