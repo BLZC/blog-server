@@ -2,24 +2,37 @@
  * 文章管理
  */
 const Article = require('../sqlConfig/model/article')
+const Category = require('../sqlConfig/model/category')
 const {Op} = require('sequelize')
 const {Len} = require('../util/api')
 module.exports = {
     // 查询所有文章
     getAllArticles: async (limit, offset) => {
-        let result = {},
-        allResult = await Article.findAll({
-            attributes: ['id', 'title', 'author', 'time', 'lastEditTime', 'belong', 'content', 'zan', 'pinglun', 'zhaiyao'],
-            order: [['id', 'DESC']]
-        })
-        result.length = allResult.length
-        result.data = await Article.findAll({
-            attributes: ['id', 'title', 'author', 'time', 'lastEditTime', 'belong', 'content', 'zan', 'pinglun', 'zhaiyao'],
-            order: [['id', 'DESC']],
-            offset: Number(offset),
-            limit: Number(limit),
-        })
-        return result
+        if (!limit || !offset) {
+            return await Article.findAll({
+                attributes: ['id', 'title', 'author', 'time', 'lastEditTime', 'content'],
+                order: [['id', 'DESC']]
+            })
+        } else {
+            let result = {}
+            Article.belongsTo(Category, {foreignKey: 'belong', targetKey: 'id'})
+            await Article.findAll().then(data =>{
+                result.total = data.length
+            }).catch(err =>{
+                console.log(err)
+            })
+            result.data = await Article.findAll({
+                include: [{
+                    model: Category,
+                    attributes: ['name']
+                }],
+                attributes: ['id', 'title', 'author', 'time', 'lastEditTime', 'content'],
+                order: [['id', 'DESC']],
+                offset: Number(offset),
+                limit: Number(limit)
+            })
+            return result
+        }
     },
     // 文章模糊查询
     getArticleBlurry: async (searchCondition, limit, offset) => {
@@ -50,7 +63,7 @@ module.exports = {
             offset: Number(offset),
             limit: Number(limit),
           })
-          result.length = allData.length || 0
+          result.total = allData.length || 0
           result.data = limitData
           return result
     },

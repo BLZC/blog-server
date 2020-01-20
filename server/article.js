@@ -23,7 +23,7 @@ module.exports = {
         ctx.body = {
             code: 1,
             data: articles.data,
-            length: articles.length
+            total: articles.total
         }
     },
     
@@ -37,7 +37,7 @@ module.exports = {
         ctx.body = {
             code: 1,
             data: articles.data,
-            length: articles.length
+            total: articles.total
         }
     },
     // 根据id查询文章
